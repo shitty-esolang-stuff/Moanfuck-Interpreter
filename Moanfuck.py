@@ -1,15 +1,14 @@
 def cleanup(bf: str) -> str:
     return ''.join(c for c in bf if c in '><+-.,[]')
 
-# 0 + AH
-# 1 - OH
-# 2 > YES
-# 3 < FUCK
-# 4 , MORE
-# 5 . YEAH
-# 6 [ AHH
-# 7 ] OOH
-# 8 # BABY
+# + | AH
+# - | OH
+# > | YES
+# < | FUCK
+# , | MORE
+# . | YEAH
+# [ | AHH
+# ] | OOH
 
 moan = input("> ")
 str = moan.replace("AHH", '[').replace("OOH", "]").replace("YES", ">").replace("FUCK", "<").replace("MORE", ",").replace("YEAH", ".").replace("AH", "+").replace("OH", "-")
@@ -64,7 +63,4 @@ def evaluate(bf: str) -> None:
         i += 1
 
 
-
-
 evaluate(str)
-#print(str)
