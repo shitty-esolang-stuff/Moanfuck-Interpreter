@@ -1,0 +1,70 @@
+def cleanup(bf: str) -> str:
+    return ''.join(c for c in bf if c in '><+-.,[]')
+
+# 0 + AH
+# 1 - OH
+# 2 > YES
+# 3 < FUCK
+# 4 , MORE
+# 5 . YEAH
+# 6 [ AHH
+# 7 ] OOH
+# 8 # BABY
+
+moan = input("> ")
+str = moan.replace("AHH", '[').replace("OOH", "]").replace("YES", ">").replace("FUCK", "<").replace("MORE", ",").replace("YEAH", ".").replace("AH", "+").replace("OH", "-")
+
+
+def make_bracemap(bf: str) -> dict:
+    bracemap = {}
+    temp = []
+
+    for i, c in enumerate(bf):
+        if c == '[':
+            temp.append(i)
+        elif c == ']':
+            start = temp.pop()
+            bracemap[start] = i
+            bracemap[i] = start
+
+    return bracemap
+
+
+def evaluate(bf: str) -> None:
+    bf = cleanup(bf)
+    bracemap = make_bracemap(bf)
+
+    arr = [0]
+    ptr = 0
+    i = 0
+
+    while i < len(bf):
+        c = bf[i]
+
+        if c == '>':
+            ptr += 1
+
+            if ptr == len(arr):
+                arr.append(0)
+        elif c == '<':
+            ptr = 0 if ptr <= 0 else ptr - 1
+        elif c == '+':
+            arr[ptr] = arr[ptr] + 1 if arr[ptr] < 255 else 0
+        elif c == '-':
+            arr[ptr] = arr[ptr] - 1 if arr[ptr] > 0 else 255
+        elif c == '.':
+            print(chr(arr[ptr]), end='')
+        elif c == ',':
+            arr[ptr] = ord(input('\n: ')[0])
+        elif c == '[' and arr[ptr] == 0:
+            i = bracemap[i]
+        elif c == ']' and arr[ptr] != 0:
+            i = bracemap[i]
+
+        i += 1
+
+
+
+
+evaluate(str)
+#print(str)
